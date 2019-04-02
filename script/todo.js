@@ -16,18 +16,19 @@ const getRemainingCount = () => todos.reduce((acc, todo) => (!todo.complete ? ac
 
 remainingCount.innerText = getRemainingCount();
 
-const newTodoDiv = (todo) => {
+const newTodoDiv = ({ id, text, complete }) => {
   const todoDiv = document.createElement('div');
   todoDiv.className = 'todo';
+  todoDiv.dataset.id = id;
 
   const todoItem = document.createElement('span');
   todoItem.className = 'todo-text';
-  todoItem.innerText = todo.text;
+  todoItem.innerText = text;
 
   const todoCheckbox = document.createElement('input');
   todoCheckbox.type = 'checkbox';
   todoCheckbox.className = 'todo-checkbox';
-  todoCheckbox.checked = todo.complete;
+  todoCheckbox.checked = complete;
 
   todoDiv.appendChild(todoCheckbox);
   todoDiv.appendChild(todoItem);
@@ -41,14 +42,29 @@ todos.forEach((todo) => {
   const todoDiv = newTodoDiv(todo);
   mainTodoList.appendChild(todoDiv);
 
-  const checkbox = todoDiv.querySelector('.todo-checkbox');
+  // const checkbox = todoDiv.querySelector('.todo-checkbox');
 
-  checkbox.addEventListener('click', () => {
-    todoDiv.classList.toggle('complete', checkbox.checked);
-    todo.complete = !todo.complete;
+  // // TODO: move this outside forEach and add event delegation for all checkboxes
+  // checkbox.addEventListener('click', () => {
+  //   todoDiv.classList.toggle('complete', checkbox.checked);
+  //   todo.complete = !todo.complete;
 
-    remainingCount.innerText = getRemainingCount();
+  //   remainingCount.innerText = getRemainingCount();
+  // });
+});
+
+mainTodoList.addEventListener('click', (e) => {
+  const checkbox = e.target;
+  const todoDiv = checkbox.parentElement;
+
+  todoDiv.classList.toggle('complete', checkbox.checked);
+
+  todos.forEach((todo) => {
+    if (todo.id === parseInt(todoDiv.dataset.id, 10)) {
+      todo.complete = !todo.complete;
+    }
   });
+  remainingCount.innerText = getRemainingCount();
 });
 
 todoInput.addEventListener('keydown', (e) => {
