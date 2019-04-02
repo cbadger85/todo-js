@@ -44,8 +44,13 @@ todos.forEach((todo) => {
 });
 
 mainTodoList.addEventListener('click', (e) => {
-  const checkbox = e.target;
+  const checkbox = e.target.querySelector('input')
+    ? e.target.querySelector('input')
+    : e.target.parentElement.querySelector('input');
+
   const todoDiv = checkbox.parentElement;
+
+  checkbox.checked = !checkbox.checked;
 
   todoDiv.classList.toggle('complete', checkbox.checked);
 
