@@ -6,6 +6,9 @@ const todos = [
 ];
 
 const mainTodoList = document.getElementById('main-todo-list');
+const remainingCount = document.getElementById('remaining-count');
+
+remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
 
 todos.forEach((todo) => {
   const todoDiv = document.createElement('div');
