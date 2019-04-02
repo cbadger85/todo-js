@@ -10,6 +10,7 @@ let nextId = 5;
 const mainTodoList = document.getElementById('main-todo-list');
 const remainingCount = document.getElementById('remaining-count');
 const todoInput = document.getElementById('todo-input');
+const toggleVisibilityButton = document.getElementById('toggle-visibility-button');
 
 
 const getRemainingCount = () => todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
@@ -47,7 +48,6 @@ mainTodoList.addEventListener('click', (e) => {
   const checkbox = e.target.querySelector('input')
     ? e.target.querySelector('input')
     : e.target.parentElement.querySelector('input');
-
   const todoDiv = checkbox.parentElement;
 
   checkbox.checked = !checkbox.checked;
