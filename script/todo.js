@@ -5,18 +5,12 @@ const todos = [
   { id: 4, text: 'Write thank-you notes', complete: false },
 ];
 
-let nextId = 5;
-let hideCompletedTodos = false;
-
 const mainTodoList = document.getElementById('main-todo-list');
 const remainingCount = document.getElementById('remaining-count');
 const todoInput = document.getElementById('todo-input');
 const toggleVisibilityButton = document.getElementById('toggle-visibility-button');
 
-
-const getRemainingCount = () => todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
-
-remainingCount.innerText = getRemainingCount();
+const getRemainingCount = () => todos.reduce((acc, todo) => (!todo.complete ? acc + 1 : acc), 0);
 
 const newTodoDiv = ({ id, text, complete }) => {
   const todoDiv = document.createElement('div');
@@ -40,6 +34,12 @@ const newTodoDiv = ({ id, text, complete }) => {
   return todoDiv;
 };
 
+let nextId = todos[todos.length - 1].id + 1;
+let hideCompletedTodos = false;
+
+
+remainingCount.innerText = getRemainingCount();
+
 todos.forEach((todo) => {
   const todoDiv = newTodoDiv(todo);
   mainTodoList.appendChild(todoDiv);
@@ -52,17 +52,11 @@ mainTodoList.addEventListener('click', (e) => {
   const todoDiv = checkbox.parentElement;
 
   checkbox.checked = e.target !== checkbox ? !checkbox.checked : checkbox.checked;
-
+  todoDiv.style.display = hideCompletedTodos ? 'none' : 'block';
   todoDiv.classList.toggle('complete', checkbox.checked);
 
-  if (hideCompletedTodos) {
-    todoDiv.style.display = 'none';
-  }
-
   todos.forEach((todo) => {
-    if (todo.id === parseInt(todoDiv.dataset.id, 10)) {
-      todo.complete = !todo.complete;
-    }
+    todo.complete = todo.id === parseInt(todoDiv.dataset.id, 10) ? !todo.complete : todo.complete;
   });
   remainingCount.innerText = getRemainingCount();
 });
@@ -81,7 +75,6 @@ todoInput.addEventListener('keydown', (e) => {
     todoInput.value = '';
   }
 });
-
 
 toggleVisibilityButton.addEventListener('click', () => {
   const todoItems = document.querySelectorAll('.todo');
