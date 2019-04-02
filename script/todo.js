@@ -41,16 +41,6 @@ const newTodoDiv = ({ id, text, complete }) => {
 todos.forEach((todo) => {
   const todoDiv = newTodoDiv(todo);
   mainTodoList.appendChild(todoDiv);
-
-  // const checkbox = todoDiv.querySelector('.todo-checkbox');
-
-  // // TODO: move this outside forEach and add event delegation for all checkboxes
-  // checkbox.addEventListener('click', () => {
-  //   todoDiv.classList.toggle('complete', checkbox.checked);
-  //   todo.complete = !todo.complete;
-
-  //   remainingCount.innerText = getRemainingCount();
-  // });
 });
 
 mainTodoList.addEventListener('click', (e) => {
