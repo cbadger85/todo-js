@@ -5,8 +5,11 @@ const todos = [
   { id: 4, text: 'Write thank-you notes', complete: false },
 ];
 
+let nextId = 5;
+
 const mainTodoList = document.getElementById('main-todo-list');
 const remainingCount = document.getElementById('remaining-count');
+const todoInput = document.getElementById('todo-input');
 
 remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
 
@@ -35,4 +38,11 @@ todos.forEach((todo) => {
 
     remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
   });
+});
+
+todoInput.addEventListener('keydown', (e) => {
+  if (e.keyCode === 13) {
+    todos.push({ id: nextId, text: e.target.value, complete: false });
+    nextId++;
+  }
 });
