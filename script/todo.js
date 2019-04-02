@@ -32,5 +32,7 @@ todos.forEach((todo) => {
   todoCheckbox.addEventListener('click', () => {
     todoDiv.classList.toggle('complete', todoCheckbox.checked);
     todo.complete = !todo.complete;
+
+    remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
   });
 });
