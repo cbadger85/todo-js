@@ -18,6 +18,8 @@ todos.forEach((todo) => {
   const todoCheckbox = document.createElement('input');
   todoCheckbox.type = 'checkbox';
   todoCheckbox.className = 'todo-checkbox';
+  todoCheckbox.checked = todo.complete;
+
   todoDiv.appendChild(todoCheckbox);
   todoDiv.appendChild(todoItem);
   mainTodoList.appendChild(todoDiv);
