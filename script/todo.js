@@ -13,7 +13,7 @@ const todoInput = document.getElementById('todo-input');
 
 remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
 
-todos.forEach((todo) => {
+const newTodoDiv = (todo) => {
   const todoDiv = document.createElement('div');
   todoDiv.className = 'todo';
 
@@ -28,12 +28,20 @@ todos.forEach((todo) => {
 
   todoDiv.appendChild(todoCheckbox);
   todoDiv.appendChild(todoItem);
-  mainTodoList.appendChild(todoDiv);
 
   todoDiv.classList.toggle('complete', todoCheckbox.checked);
 
-  todoCheckbox.addEventListener('click', () => {
-    todoDiv.classList.toggle('complete', todoCheckbox.checked);
+  return todoDiv;
+};
+
+todos.forEach((todo) => {
+  const todoDiv = newTodoDiv(todo);
+  mainTodoList.appendChild(todoDiv);
+
+  const checkbox = todoDiv.querySelector('.todo-checkbox');
+
+  checkbox.addEventListener('click', () => {
+    todoDiv.classList.toggle('complete', checkbox.checked);
     todo.complete = !todo.complete;
 
     remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
