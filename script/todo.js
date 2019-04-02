@@ -11,7 +11,10 @@ const mainTodoList = document.getElementById('main-todo-list');
 const remainingCount = document.getElementById('remaining-count');
 const todoInput = document.getElementById('todo-input');
 
-remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
+
+const getRemainingCount = () => todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
+
+remainingCount.innerText = getRemainingCount();
 
 const newTodoDiv = (todo) => {
   const todoDiv = document.createElement('div');
@@ -44,13 +47,19 @@ todos.forEach((todo) => {
     todoDiv.classList.toggle('complete', checkbox.checked);
     todo.complete = !todo.complete;
 
-    remainingCount.innerText = todos.reduce((acc, todo) => (!todo.complete ? acc += 1 : acc), 0);
+    remainingCount.innerText = getRemainingCount();
   });
 });
 
 todoInput.addEventListener('keydown', (e) => {
   if (e.keyCode === 13) {
-    todos.push({ id: nextId, text: e.target.value, complete: false });
+    const todo = { id: nextId, text: e.target.value, complete: false };
+    todos.push(todo);
     nextId++;
+
+    const newTodo = newTodoDiv(todo);
+    mainTodoList.appendChild(newTodo);
+
+    remainingCount.innerText = getRemainingCount();
   }
 });
