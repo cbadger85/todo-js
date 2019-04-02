@@ -23,4 +23,11 @@ todos.forEach((todo) => {
   todoDiv.appendChild(todoCheckbox);
   todoDiv.appendChild(todoItem);
   mainTodoList.appendChild(todoDiv);
+
+  todoDiv.classList.toggle('complete', todoCheckbox.checked);
+
+  todoCheckbox.addEventListener('click', () => {
+    todoDiv.classList.toggle('complete', todoCheckbox.checked);
+    todo.complete = !todo.complete;
+  });
 });
