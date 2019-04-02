@@ -6,6 +6,7 @@ const todos = [
 ];
 
 let nextId = 5;
+let hideCompletedTodos = false;
 
 const mainTodoList = document.getElementById('main-todo-list');
 const remainingCount = document.getElementById('remaining-count');
@@ -50,9 +51,13 @@ mainTodoList.addEventListener('click', (e) => {
     : e.target.parentElement.querySelector('input');
   const todoDiv = checkbox.parentElement;
 
-  checkbox.checked = !checkbox.checked;
+  checkbox.checked = e.target !== checkbox ? !checkbox.checked : checkbox.checked;
 
   todoDiv.classList.toggle('complete', checkbox.checked);
+
+  if (hideCompletedTodos) {
+    todoDiv.style.display = 'none';
+  }
 
   todos.forEach((todo) => {
     if (todo.id === parseInt(todoDiv.dataset.id, 10)) {
@@ -72,5 +77,30 @@ todoInput.addEventListener('keydown', (e) => {
     mainTodoList.appendChild(newTodo);
 
     remainingCount.innerText = getRemainingCount();
+
+    todoInput.value = '';
+  }
+});
+
+
+toggleVisibilityButton.addEventListener('click', () => {
+  const todoItems = document.querySelectorAll('.todo');
+
+  hideCompletedTodos = !hideCompletedTodos;
+
+  if (hideCompletedTodos) {
+    todoItems.forEach((todo) => {
+      const checkbox = todo.querySelector('input');
+
+      todo.style.display = checkbox.checked ? 'none' : 'block';
+
+      toggleVisibilityButton.innerText = 'Show completed items';
+    });
+  } else {
+    todoItems.forEach((todo) => {
+      todo.style.display = 'block';
+
+      toggleVisibilityButton.innerText = 'Hide completed items';
+    });
   }
 });
